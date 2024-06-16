@@ -10,6 +10,9 @@ import (
 func main() {
 	// You can use print statements as follows for debugging, they'll be visible when running tests.
 	// fmt.Println("Logs from your program will appear here!")
+	cmd := map[string]bool{
+		"exit": true,
+	}
 
 	for true {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -23,6 +26,12 @@ func main() {
 		}
 
 		command = strings.TrimSpace(command)
+		chainedCmd := strings.Split(command, " ")
+
+		if cmd[chainedCmd[0]] {
+			break
+		}
+
 		fmt.Fprintf(os.Stdout, "%s: command not found\n", command)
 	}
 }
