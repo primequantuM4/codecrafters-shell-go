@@ -12,6 +12,7 @@ func main() {
 	// fmt.Println("Logs from your program will appear here!")
 	cmd := map[string]bool{
 		"exit": true,
+		"echo": true,
 	}
 
 	for true {
@@ -29,9 +30,26 @@ func main() {
 		chainedCmd := strings.Split(command, " ")
 
 		if cmd[chainedCmd[0]] {
-			break
+			val := executeCmd(chainedCmd[0], chainedCmd[1:])
+			if val {
+				break
+			}
+			continue
 		}
 
 		fmt.Fprintf(os.Stdout, "%s: command not found\n", command)
 	}
+}
+
+func executeCmd(cmd string, attr []string) bool {
+	switch cmd {
+	case "echo":
+		fmt.Fprintf(os.Stdout, strings.Join(attr, " "))
+		fmt.Fprintf(os.Stdout, "\n")
+		return false
+	case "exit":
+		return true
+	}
+
+	return false
 }
