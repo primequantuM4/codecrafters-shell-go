@@ -55,7 +55,7 @@ func executeCmd(cmd string, attr []string, cmdMap map[string]bool) bool {
 		if cmdMap[builtinCmd] {
 			fmt.Fprintf(os.Stdout, "%s is a shell builtin\n", builtinCmd)
 		} else {
-			fmt.Fprintf(os.Stdout, "%s: command not found\n", builtinCmd)
+			fmt.Fprintf(os.Stdout, "%s: not found\n", builtinCmd)
 		}
 
 	}
