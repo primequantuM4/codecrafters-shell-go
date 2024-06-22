@@ -13,6 +13,7 @@ func main() {
 	cmd := map[string]bool{
 		"exit": true,
 		"echo": true,
+		"type": true,
 	}
 
 	for true {
@@ -30,7 +31,7 @@ func main() {
 		chainedCmd := strings.Split(command, " ")
 
 		if cmd[chainedCmd[0]] {
-			val := executeCmd(chainedCmd[0], chainedCmd[1:])
+			val := executeCmd(chainedCmd[0], chainedCmd[1:], cmd)
 			if val {
 				break
 			}
@@ -41,7 +42,7 @@ func main() {
 	}
 }
 
-func executeCmd(cmd string, attr []string) bool {
+func executeCmd(cmd string, attr []string, cmdMap map[string]bool) bool {
 	switch cmd {
 	case "echo":
 		fmt.Fprintf(os.Stdout, strings.Join(attr, " "))
@@ -49,6 +50,14 @@ func executeCmd(cmd string, attr []string) bool {
 		return false
 	case "exit":
 		return true
+	case "type":
+		builtinCmd := attr[0]
+		if cmdMap[builtinCmd] {
+			fmt.Fprintf(os.Stdout, "%s is a shell builtin\n", builtinCmd)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s: command not found\n", builtinCmd)
+		}
+
 	}
 
 	return false
